@@ -38,66 +38,10 @@ src_compile() {
 		chmod 755 ${S}/filter/brlpdwrapper$1
 	}
 
-	if [ `use mfc7320` ] ; then
-		ppd_generate MFC7320
-		filter_generate MFC7320
-	fi
-
-        if [ `use mfc7340` ] ; then
-                ppd_generate MFC7340
-                filter_generate MFC7340
-        fi
-
-        if [ `use mfc7440n` ] ; then
-                ppd_generate MFC7440N
-                filter_generate MFC7440N
-        fi
-
-        if [ `use mfc7450` ] ; then
-                ppd_generate MFC7450
-                filter_generate MFC7450
-        fi
-
-        if [ `use mfc7840n` ] ; then
-                ppd_generate MFC7840N
-                filter_generate MFC7840N
-        fi
-
-        if [ `use mfc7840w` ] ; then
-                ppd_generate MFC7840W
-                filter_generate MFC7840W
-        fi
-
-#        if [ `use dcp7030` ] ; then
-                ppd_generate DCP7030
-                filter_generate DCP7030
-#        fi
-
-        if [ `use dcp7040` ] ; then
-                ppd_generate DCP7040
-                filter_generate DCP7040
-        fi
-
-        if [ `use dcp7045n` ] ; then
-                ppd_generate DCP7045N
-                filter_generate DCP7045N
-        fi
-
-        if [ `use hl2140` ] ; then
-                ppd_generate HL2140
-                filter_generate HL2140
-        fi
-
-        if [ `use hl2150n` ] ; then
-                ppd_generate HL2150N
-                filter_generate HL2150N
-        fi
-
-        if [ `use hl2170w` ] ; then
-                ppd_generate HL2170W
-                filter_generate HL2170W
-        fi
+        ppd_generate DCP7030
+        filter_generate DCP7030
 }
+
 
 src_install() {
 	has_multilib_profile && ABI=x86
