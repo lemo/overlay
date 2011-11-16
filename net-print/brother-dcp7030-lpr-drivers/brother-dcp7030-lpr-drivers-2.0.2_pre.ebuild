@@ -37,8 +37,8 @@ src_install() {
 
 	mv usr/local/Brother/inf/{braddprinter,brDCP7030func,brDCP7030rc,paperinf,setupPrintcap} ${D}${INSTDIR}/inf
 	mv usr/local/Brother/lpd/{filterDCP7030,psconvert2,rawtobr2} ${D}${INSTDIR}/lpd
-	chmod a+w ${D}usr/local/Brother/inf/br*rc
-	chmod a+w ${D}usr/local/Brother/inf
+	chmod a+w ${D}${INSTDIR}/inf/br*rc
+	chmod a+w ${D}${INSTDIR}/inf
 
 	echo "DCP7030" >> ${INSTDIR}/inf/brPrintList
 

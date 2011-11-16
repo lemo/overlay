@@ -47,7 +47,7 @@ src_install() {
 	has_multilib_profile && ABI=x86
 	INSTDIR="/opt/Brother"
 
-	dodir ${INSTDIR}/cupswrapper/ #brcupsconfig3
+	dodir ${INSTDIR}/cupswrapper/
 	dodir /usr/lib/cups/filter/
 	dodir /usr/share/cups/model/
 	dodir /usr/libexec/cups/filter/
@@ -57,7 +57,7 @@ src_install() {
 		cp  ${S}/model/.ppd ${D}usr/share/ppd
 	fi
 
-#	mv  ${S}/brcupsconfig3/* ${D}${INSTDIR}/cupswrapper/brcupsconifg3/
+	mv  ${S}/brcupsconfig3/{brcups_commands.h,brcupsconfig.c} ${D}${INSTDIR}/cupswrapper/
 	mv  ${S}/model/*.ppd ${D}usr/share/cups/model/
 	mv  ${S}/filter/brlpdwrapper* ${D}usr/lib/cups/filter/
 	cp -r ${D}usr/lib/cups/filter/brlpdwrapper* ${D}usr/libexec/cups/filter/
@@ -65,6 +65,8 @@ src_install() {
 }
 
 pkg_postinst() {
+	/etc/init.d/cupsd restart
+	sleep 2s
 	port2=`lpinfo -v | grep -i 'usb://Brother/DCP-7030' | head -1`
 	if [ "$port2" = '' ];then
         	port2=`lpinfo -v | grep 'usb://' | head -1`
