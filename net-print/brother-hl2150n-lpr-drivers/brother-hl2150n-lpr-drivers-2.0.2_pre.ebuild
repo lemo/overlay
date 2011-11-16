@@ -6,9 +6,9 @@ EAPI=4
 
 inherit rpm multilib
 
-DESCRIPTION="Brother DCP-7040 LPR drivers"
+DESCRIPTION="Brother HL-2150N LPR drivers"
 HOMEPAGE="http://solutions.brother.com/linux/en_us/index.html"
-SRC_URI="http://pub.brother.com/pub/com/bsc/linux/dlf/brdcp7040lpr-2.0.2-1.i386.rpm"
+SRC_URI="http://pub.brother.com/pub/com/bsc/linux/dlf/brhl2150nlpr-2.0.2-1.i386.rpm"
 
 LICENSE="Brother-EULA"
 SLOT="0"
@@ -39,12 +39,12 @@ src_install() {
 	dodir ${INSTDIR}/inf
 	dodir ${INSTDIR}/lpd
 
-	mv  usr/local/Brother/inf/{braddprinter,brDCP7040func,brDCP7040rc,paperinf,setupPrintcap} ${D}${INSTDIR}/inf
-	mv  usr/local/Brother/lpd/{filterDCP7040,psconvert2,rawtobr2} ${D}${INSTDIR}/lpd
+	mv usr/local/Brother/inf/{braddprinter,brHL2150nfunc,brHL2150nrc,paperinf,setupPrintcap} ${D}${INSTDIR}/inf
+	mv usr/local/Brother/lpd/{filterHL2150n,psconvert2,rawtobr2} ${D}${INSTDIR}/lpd
 	chmod a+w ${D}${INSTDIR}/inf/br*rc
 	chmod a+w ${D}${INSTDIR}/inf
 
-	echo "DCP7030" >> ${INSTDIR}/inf/brPrintList
+	echo "HL2150N" >> ${INSTDIR}/inf/brPrintList
 
-	dodir /var/spool/lpd/DCP7040
+	dodir /var/spool/lpd/HL2150N
 }
