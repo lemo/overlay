@@ -12,11 +12,11 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
 
-# IUSE_DCP="dcp7030 dcp7040 dcp7045n"
-# IUSE_HL="hl2140 hl2150n hl2170w"
-# IUSE_MFC="mfc7320 mfc7340 mfc7440n mfc7450 mfc7840n mfc7840w"
-# IUSE="${IUSE_DCP} ${IUSE_HL} ${IUSE_MFC}"
-RDEPEND="net-print/cups
+#IUSE_DCP="dcp7030 dcp7040 dcp7045n"
+#IUSE_HL="hl2140 hl2150n hl2170w"
+#IUSE_MFC="mfc7320 mfc7340 mfc7440n mfc7450 mfc7840n mfc7840w"
+#IUSE="${IUSE_DCP} ${IUSE_HL} ${IUSE_MFC}"
+RDEPEND="net-print/cups 
 	net-print/brother-dcp7030-lpr-drivers"
 
 DEPEND="${RDEPEND} sys-apps/sed"
@@ -34,8 +34,8 @@ src_compile() {
 	}
 
 	function filter_generate() {
-		sed -n '/cat <<!ENDOFWFILTER! >$brotherlpdwrapper/,/!ENDOFWFILTER!/p' ${S}/scripts/cupswrapper$1-2.0.2 |sed '$d' | sed '1,1d' > ${S}/filter/brlpdwrapper$1
-		chmod 755 ${S}/filter/brlpdwrapper$1
+		sed -n '/cat <<!ENDOFWFILTER! >$brotherlpdwrapper/,/!ENDOFWFILTER!/p' ${S}/scripts/cupswrapper$1-2.0.2 |sed '$d' | sed '1,1d' > ${S}/filter/brotherlpdwrapper$1
+		chmod 755 ${S}/filter/brotherlpdwrapper$1
 	}
 
         ppd_generate DCP7030
@@ -59,8 +59,8 @@ src_install() {
 
 	mv  ${S}/brcupsconfig3/{brcups_commands.h,brcupsconfig.c} ${D}${INSTDIR}/cupswrapper/
 	mv  ${S}/model/*.ppd ${D}usr/share/cups/model/
-	mv  ${S}/filter/brlpdwrapper* ${D}usr/lib/cups/filter/
-	cp -r ${D}usr/lib/cups/filter/brlpdwrapper* ${D}usr/libexec/cups/filter/
+	mv  ${S}/filter/brotherlpdwrapper* ${D}usr/lib/cups/filter/
+	ln -s /opt/Brother/lpd/filterDCP7030 ${D}usr/libexec/cups/filter/brlpdwrapperDCP7030
 
 }
 
@@ -76,6 +76,7 @@ pkg_postinst() {
         	port=usb:/dev/usb/lp0
 	fi
 	lpadmin -p DCP7030 -E -v $port -P /usr/share/cups/model/DCP7030.ppd
+
 
 	ewarn "You really wanna read this."
 	elog "If you would like to remove drivers, you have to run"
