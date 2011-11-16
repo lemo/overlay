@@ -12,12 +12,13 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
 
-IUSE_DCP="dcp7030 dcp7040 dcp7045n"
-IUSE_HL="hl2140 hl2150n hl2170w"
-IUSE_MFC="mfc7320 mfc7340 mfc7440n mfc7450 mfc7840n mfc7840w"
-IUSE="${IUSE_DCP} ${IUSE_HL} ${IUSE_MFC}"
-RDEPEND="net-print/cups 
-	dcp7030? ( net-print/brother-dcp7030-lpr-drivers )"
+# IUSE_DCP="dcp7030 dcp7040 dcp7045n"
+# IUSE_HL="hl2140 hl2150n hl2170w"
+# IUSE_MFC="mfc7320 mfc7340 mfc7440n mfc7450 mfc7840n mfc7840w"
+# IUSE="${IUSE_DCP} ${IUSE_HL} ${IUSE_MFC}"
+RDEPEND="net-print/cups
+#	dcp7030? (
+	net-print/brother-dcp7030-lpr-drivers" # )"
 
 DEPEND="${RDEPEND} sys-apps/sed"
 
