@@ -1,0 +1,141 @@
+# Copyright 1999-2011 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+inherit eutils
+
+DESCRIPTION="CUPS-Drivers for Brother Laser Printers"
+HOMEPAGE="http://www.brother.com/index.htm"
+SRC_URI="http://www.brother.com/pub/bsc/linux/dlf/brother-laser2-cups-driver-2.0.2-1.tar.gz"
+
+LICENSE="GPL-2"
+SLOT="0"
+KEYWORDS="~x86 ~amd64"
+
+IUSE_DCP="dcp7030 dcp7040 dcp7045n"
+IUSE_HL="hl2140 hl2150n hl2170w"
+IUSE_MFC="mfc7320 mfc7340 mfc7440n mfc7450 mfc7840n mfc7840w"
+IUSE="${IUSE_DCP} ${IUSE_HL} ${IUSE_MFC}"
+RDEPEND="net-print/cups 
+	dcp7030? ( net-print/brother-dcp7030-lpr-drivers )"
+
+DEPEND="${RDEPEND} sys-apps/sed"
+
+
+S=${WORKDIR}/${P}-1
+
+
+src_compile() {
+	mkdir -p ${S}/model
+	mkdir -p ${S}/filter
+	function ppd_generate() {
+		sed -n '/cat <<ENDOFPPDFILE >$ppd_file_name/,/ENDOFPPDFILE/p' ${S}/scripts/cupswrapper$1-2.0.2 | sed '$d'| sed '1,1d' > ${S}/model/$1.ppd
+		chmod 755 ${S}/model/$1.ppd
+	}
+
+	function filter_generate() {
+		sed -n '/cat <<!ENDOFWFILTER! >$brotherlpdwrapper/,/!ENDOFWFILTER!/p' ${S}/scripts/cupswrapper$1-2.0.2 |sed '$d' | sed '1,1d' > ${S}/filter/brlpdwrapper$1
+		chmod 755 ${S}/filter/brlpdwrapper$1
+	}
+
+	if [ `use mfc7320` ] ; then
+		ppd_generate MFC7320
+		filter_generate MFC7320
+	fi
+
+        if [ `use mfc7340` ] ; then
+                ppd_generate MFC7340
+                filter_generate MFC7340
+        fi
+
+        if [ `use mfc7440n` ] ; then
+                ppd_generate MFC7440N
+                filter_generate MFC7440N
+        fi
+
+        if [ `use mfc7450` ] ; then
+                ppd_generate MFC7450
+                filter_generate MFC7450
+        fi
+
+        if [ `use mfc7840n` ] ; then
+                ppd_generate MFC7840N
+                filter_generate MFC7840N
+        fi
+
+        if [ `use mfc7840w` ] ; then
+                ppd_generate MFC7840W
+                filter_generate MFC7840W
+        fi
+
+#        if [ `use dcp7030` ] ; then
+                ppd_generate DCP7030
+                filter_generate DCP7030
+#        fi
+
+        if [ `use dcp7040` ] ; then
+                ppd_generate DCP7040
+                filter_generate DCP7040
+        fi
+
+        if [ `use dcp7045n` ] ; then
+                ppd_generate DCP7045N
+                filter_generate DCP7045N
+        fi
+
+        if [ `use hl2140` ] ; then
+                ppd_generate HL2140
+                filter_generate HL2140
+        fi
+
+        if [ `use hl2150n` ] ; then
+                ppd_generate HL2150N
+                filter_generate HL2150N
+        fi
+
+        if [ `use hl2170w` ] ; then
+                ppd_generate HL2170W
+                filter_generate HL2170W
+        fi
+}
+
+src_install() {
+	has_multilib_profile && ABI=x86
+	INSTDIR="/opt/Brother"
+
+	dodir ${INSTDIR}/cupswrapper/ #brcupsconfig3
+	dodir /usr/lib/cups/filter/
+	dodir /usr/share/cups/model/
+	dodir /usr/libexec/cups/filter/
+
+	if [ -e '/usr/share/ppd' ]; then
+		dodir /usr/share/ppd
+		cp  ${S}/model/.ppd ${D}usr/share/ppd
+	fi
+
+#	mv  ${S}/brcupsconfig3/* ${D}${INSTDIR}/cupswrapper/brcupsconifg3/
+	mv  ${S}/model/*.ppd ${D}usr/share/cups/model/
+	mv  ${S}/filter/brlpdwrapper* ${D}usr/lib/cups/filter/
+	cp -r ${D}usr/lib/cups/filter/brlpdwrapper* ${D}usr/libexec/cups/filter/
+
+}
+
+pkg_postinst() {
+	port2=`lpinfo -v | grep -i 'usb://Brother/DCP-7030' | head -1`
+	if [ "$port2" = '' ];then
+        	port2=`lpinfo -v | grep 'usb://' | head -1`
+	fi
+	port=`echo $port2| sed s/direct//g`
+	if [ "$port" = '' ];then
+        	port=usb:/dev/usb/lp0
+	fi
+	lpadmin -p DCP7030 -E -v $port -P /usr/share/cups/model/DCP7030.ppd
+
+	ewarn "You really wanna read this."
+	elog "If you would like to remove drivers, you have to run"
+	elog
+	elog '		lpadmin -x $1'
+	elog
+	elog 'where $1, is you driver class (like DCP7030)'
+	elog "after unmerging cups-driver package"
+}
