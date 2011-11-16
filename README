@@ -1,4 +1,4 @@
-In this overlay I would collect packages, which I need but doesn't 
+In this overlay I will collect packages, which I need but doesn't 
 find in portage tree.
 Now there is only drivers for my printer (Brother dcp7030)
 
