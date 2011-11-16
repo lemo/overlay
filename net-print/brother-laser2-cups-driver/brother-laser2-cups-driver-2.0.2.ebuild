@@ -17,8 +17,7 @@ KEYWORDS="~x86 ~amd64"
 # IUSE_MFC="mfc7320 mfc7340 mfc7440n mfc7450 mfc7840n mfc7840w"
 # IUSE="${IUSE_DCP} ${IUSE_HL} ${IUSE_MFC}"
 RDEPEND="net-print/cups
-#	dcp7030? (
-	net-print/brother-dcp7030-lpr-drivers" # )"
+	net-print/brother-dcp7030-lpr-drivers"
 
 DEPEND="${RDEPEND} sys-apps/sed"
 
