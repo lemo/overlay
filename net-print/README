@@ -1,13 +1,7 @@
-Instalation of lpr-drivers works only if you are installing only one lpr-driver.
-If you try to instal 2 or more, or if you have already one driver instaled, 
-instalation will be failed.
+Installation of lpr-drivers only works, if you select one USE-Flag.
+Using multiple results in an Access Violation. The same happens when reinstalling with different settings.
+Please uninstall first, then reinstall.
 
-TODO: to fix it.
-
-Instalation of brother-laser2-cups-driver works fine only for DCP7030.
-To install other drivers you have to change some things in pkg_postinst.
-DCP7030 to "you printer" =)
-But other drivers are not tested.(I have only one printer)
-
-TODO: to fix it too. I'm too lazy, sorry =)
-
+Installation of brother-aser2-cups-driver works fine for DCP7030.
+For other drivers please change [DCP7030] to [your printer] in pkg_postinst.
+Other cases are not tested.
