@@ -94,11 +94,9 @@ pkg_postinst() {
 	lpadmin -p DCP7030 -E -v $port -P /usr/share/cups/model/DCP7030.ppd
 
 
-	ewarn "You really wanna read this."
-	elog "If you would like to remove drivers, you have to run"
-	elog
-	elog '		lpadmin -x $1'
-	elog
-	elog 'where $1, is you driver class (like DCP7030)'
-	elog "after unmerging cups-driver package"
+	ewarn 'Deinstallation Notice:'
+	elog  'To remove the driver, please run'
+	elog  '    lpadmin -x $1'
+	elog  'with $1 as your driver name (eg. DCP7030),'
+	elog  'after unmerging the cups-driver package.'
 }
