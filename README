@@ -1,15 +1,9 @@
-In this overlay I will collect packages, which I need but doesn't 
-find in portage tree.
-Now there is only drivers for my printer (Brother dcp7030)
+In this overlay I am collecting packages I need but are not in the public portage tree.
 
-
+Upto now there's only one driver, and I've only tested my printer (Brother dcp7030).
+The others, they should work too. Feel free to test and fork with your own printers, and send me patches or pull-reqs.
 
 You can redistribute and/or modify all files (.ebuild's)
 under the terms of the GNU General Public License as published by the Free
 Software Foundation; either version 2 of the License, or (at your option)
 any later version.
-
-P.S. Sorry for my english =)
-
-
-
