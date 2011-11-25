@@ -77,16 +77,26 @@ src_install() {
 pkg_postinst() {
 	/etc/init.d/cupsd restart
 	sleep 2s
-	port2=`lpinfo -v | grep -i 'usb://Brother/DCP-7030' | head -1`
-	if [ "$port2" = '' ];then
-        	port2=`lpinfo -v | grep 'usb://' | head -1`
-	fi
-	port=`echo $port2| sed s/direct//g`
-	if [ "$port" = '' ];then
-        	port=usb:/dev/usb/lp0
-	fi
-	lpadmin -p DCP7030 -E -v $port -P /usr/share/cups/model/DCP7030.ppd
 
+	function createprinter() {
+        until [ -z "$1" ]
+        do
+		if use $1  ; then
+			port2=`lpinfo -v | grep -i 'usb://Brother/DCP-7030' | head -1`
+			if [ "$port2" = '' ];then
+		       		port2=`lpinfo -v | grep 'usb://' | head -1`
+			fi
+			port=`echo $port2| sed s/direct//g`
+			if [ "$port" = '' ];then
+        			port=usb:/dev/usb/lp0
+			fi
+			lpadmin -p $1 -E -v $port -P /usr/share/cups/model/$1.ppd
+		fi
+		shift
+	done
+	}
+
+	createprinter DCP7030 DCP7040 DCP7045N HL2140 HL2150N HL2170W
 
 	ewarn 'Deinstallation Notice:'
 	ewarn 'To remove the driver, please run'
