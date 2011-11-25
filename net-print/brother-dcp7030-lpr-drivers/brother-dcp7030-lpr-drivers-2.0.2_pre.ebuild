@@ -46,5 +46,4 @@ src_install() {
 
 	echo "DCP7030" >> ${INSTDIR}/inf/brPrintList
 
-	dodir /var/spool/lpd/DCP7030
 }
