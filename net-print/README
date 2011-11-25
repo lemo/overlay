@@ -1,7 +1,0 @@
-Installation of lpr-drivers only works, if you select one USE-Flag.
-Using multiple results in an Access Violation. The same happens when reinstalling with different settings.
-Please uninstall first, then reinstall.
-
-Installation of brother-aser2-cups-driver works fine for DCP7030.
-For other drivers please change [DCP7030] to [your printer] in pkg_postinst.
-Other cases are not tested.
