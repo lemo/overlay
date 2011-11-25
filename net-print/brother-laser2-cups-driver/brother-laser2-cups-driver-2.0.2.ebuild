@@ -25,7 +25,7 @@ RDEPEND="net-print/cups
         HL2150N? ( net-print/brother-hl2150n-lpr-drivers )
         HL2170W? ( net-print/brother-hl2170w-lpr-drivers )"
 
-DEPEND="${RDEPEND} sys-apps/sed"
+DEPEND="${RDEPEND}"
 
 
 S=${WORKDIR}/${P}-1
@@ -39,16 +39,11 @@ src_compile() {
 		chmod 755 ${S}/model/$1.ppd
 	}
 
-	function filter_generate() {
-		sed -n '/cat <<!ENDOFWFILTER! >$brotherlpdwrapper/,/!ENDOFWFILTER!/p' ${S}/scripts/cupswrapper$1-2.0.2 |sed '$d' | sed '1,1d' > ${S}/filter/brotherlpdwrapper$1
-		chmod 755 ${S}/filter/brotherlpdwrapper$1
-	}
 	function cmpuse () {
 	until [ -z "$1" ]
 	do
 		if use $1 ; then
         		ppd_generate $1
-        		filter_generate $1
 			ln -s /opt/Brother/lpd/filter$1 ${S}/filter/brlpdwrapper$1
 		fi
 		shift
@@ -75,7 +70,6 @@ src_install() {
 
 	mv ${S}/brcupsconfig3/{brcups_commands.h,brcupsconfig.c} ${D}${INSTDIR}/cupswrapper/
 	mv ${S}/model/*.ppd ${D}usr/share/cups/model/
-	mv ${S}/filter/brotherlpdwrapper* ${D}usr/lib/cups/filter/
 	mv ${S}/filter/brlpdwrapper* ${D}usr/libexec/cups/filter
 
 }
@@ -95,8 +89,8 @@ pkg_postinst() {
 
 
 	ewarn 'Deinstallation Notice:'
-	elog  'To remove the driver, please run'
-	elog  '    lpadmin -x $1'
-	elog  'with $1 as your driver name (eg. DCP7030),'
-	elog  'after unmerging the cups-driver package.'
+	ewarn 'To remove the driver, please run'
+	ewarn '    lpadmin -x $1'
+	ewarn 'with $1 as your driver name (eg. DCP7030),'
+	ewarn 'after unmerging the cups-driver package.'
 }
